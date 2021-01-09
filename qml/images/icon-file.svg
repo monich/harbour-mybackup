@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 64 64"
+    style="enable-background:new 0 0 64 64;"
+    xml:space="preserve">
+  <rect
+      style="opacity:0;fill:#ffffff;"
+      width="64"
+      height="64"/>
+  <g style="opacity:0.6;">
+    <path
+        style="fill:#ffffff;"
+        d="M47.907,56H16.092C13.836,56,12,54.164,12,51.907V12.092C12,9.836,13.836,8,16.092,8h19.859 c1.966,0,4.595,1.091,5.983,2.484l7.591,7.62C50.913,19.496,52,22.127,52,24.092v27.815C52,54.164,50.164,56,47.907,56z  M16.092,10C14.938,10,14,10.938,14,12.092v39.815C14,53.062,14.938,54,16.092,54h31.815C49.062,54,50,53.062,50,51.907V24.092 c0-1.427-0.884-3.566-1.891-4.577l-7.591-7.619C39.511,10.886,37.377,10,35.951,10H16.092z"/>
+  </g>
+  <path
+      style="fill:#ffffff;"
+      d="M40.865,21h10.179l-12-12v9.988C39.044,19.913,39.922,21,40.865,21z"/>
+  <g>
+    <rect x="21.083" y="26" style="fill:#ffffff;" width="22" height="2"/>
+    <rect x="21.083" y="35" style="fill:#ffffff;" width="22" height="2"/>
+    <rect x="21.083" y="44" style="fill:#ffffff;" width="22" height="2"/>
+  </g>
+</svg>

@@ -1,0 +1,4 @@
+{
+    "name": "MyBackup",
+    "script": "/usr/bin/openrepos-mybackup"
+}
