@@ -28,6 +28,10 @@ SilicaListView {
         //% "Backup items"
         title: qsTrId("mybackup-main_page-title")
 
+        //: Main page description
+        //% "To be added to the backup"
+        description: qsTrId("mybackup-main_page-description")
+
         BackupListSeparator {
             anchors.bottom: parent.bottom
         }

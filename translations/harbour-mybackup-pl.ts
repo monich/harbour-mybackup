@@ -13,6 +13,11 @@
         <extracomment>Main page title</extracomment>
         <translation>Pozycje kopii zapasowej</translation>
     </message>
+    <message id="mybackup-main_page-description">
+        <source>To be added to the backup</source>
+        <extracomment>Main page description</extracomment>
+        <translation type="unfinished">Za dodania do głównej kopii</translation>
+    </message>
     <message id="mybackup-main_page-add_item">
         <source>Add new item</source>
         <extracomment>Pressable footer label</extracomment>

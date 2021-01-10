@@ -11,7 +11,12 @@
     <message id="mybackup-main_page-title">
         <source>Backup items</source>
         <extracomment>Main page title</extracomment>
-        <translation>Резервное копирование</translation>
+        <translation>Элементы для копирования</translation>
+    </message>
+    <message id="mybackup-main_page-description">
+        <source>To be added to the backup</source>
+        <extracomment>Main page description</extracomment>
+        <translation>Будут добавлены к резервной копии</translation>
     </message>
     <message id="mybackup-main_page-add_item">
         <source>Add new item</source>
