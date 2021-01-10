@@ -16,7 +16,7 @@
     <message id="mybackup-main_page-description">
         <source>To be added to the backup</source>
         <extracomment>Main page description</extracomment>
-        <translation type="unfinished">För att läggas till i säkerhetskopian</translation>
+        <translation type="unfinished">Att läggas till i säkerhetskopian</translation>
     </message>
     <message id="mybackup-main_page-add_item">
         <source>Add new item</source>
