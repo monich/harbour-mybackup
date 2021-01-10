@@ -27,6 +27,8 @@ CoverBackground {
     }
 
     Item {
+        id: content
+
         x: Theme.paddingLarge
         y: Theme.paddingLarge
         width: parent.width - x*2
@@ -126,12 +128,14 @@ CoverBackground {
 
             Label {
                 width: parent.width
+                height: content.height
                 visible: !haveLastBackup && !haveLastRestore
                 horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
                 color: Theme.highlightColor
                 font.pixelSize: Theme.fontSizeLarge
                 minimumPixelSize: Theme.fontSizeMedium
-                wrapMode: Text.Wrap
+                wrapMode: Text.WordWrap
                 fontSizeMode: Text.Fit
                 //: Cover page label
                 //% "Nothing has been backed up or restored yet"
