@@ -2,6 +2,7 @@
 Type=Application
 Name=My backup
 Name[ru]=Мой бэкап
+Name[zh_CN]=我的备份
 X-Nemo-Application-Type=silica-qt5
 Icon=harbour-mybackup
 Exec=harbour-mybackup

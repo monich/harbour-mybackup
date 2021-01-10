@@ -38,8 +38,7 @@ OTHER_FILES += \
     js/*.js \
     qml/*.qml \
     qml/images/*.svg \
-    icons/*.svg \
-    translations/*.ts
+    icons/*.svg
 
 # App
 
@@ -149,6 +148,7 @@ TRANSLATION_SOURCES = \
 defineTest(addTrFile) {
     rel = translations/harbour-$${1}
     OTHER_FILES += $${rel}.ts
+    export(OTHER_FILES)
 
     in = $${_PRO_FILE_PWD_}/$$rel
     out = $${OUT_PWD}/translations/$${PREFIX}-$$1
@@ -178,7 +178,7 @@ defineTest(addTrFile) {
     export(qm.files)
 }
 
-LANGUAGES = pl ru sv
+LANGUAGES = pl ru sv zh_CN
 
 addTrFile($${NAME})
 for(l, LANGUAGES) {

@@ -6,7 +6,7 @@
     <message id="mybackup-app_name">
         <source>My Backup</source>
         <extracomment>Application title</extracomment>
-        <translation>My Backup（我的备份）</translation>
+        <translation>我的备份</translation>
     </message>
     <message id="mybackup-main_page-title">
         <source>Backup items</source>
@@ -86,7 +86,7 @@
     <message id="mybackup-add_app-placeholder_text">
         <source>None of the installed applications are integrated with My Backup</source>
         <extracomment>Placeholder text</extracomment>
-        <translation>已安装的软件均未与 My Backup（我的备份） 整合</translation>
+        <translation>已安装的软件均未与我的备份整合</translation>
     </message>
     <message id="mybackup-add_app-placeholder_hint">
         <source>Try installing Counter, Foil Notes, Foil Pics or Foil Auth application from either Jolla Store or OpenRepos.net</source>
