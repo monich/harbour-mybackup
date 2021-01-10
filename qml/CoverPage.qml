@@ -73,12 +73,13 @@ CoverBackground {
                 width: parent.width
 
                 Label {
-                    width: parent.width
-                    horizontalAlignment: Text.AlignHCenter
+                    width: Math.min(parent.width, implicitWidth)
+                    anchors.horizontalCenter: parent.horizontalCenter
                     color: Theme.highlightColor
+                    truncationMode: TruncationMode.Fade
                     font.pixelSize: Theme.fontSizeLarge
-                    minimumPixelSize: Theme.fontSizeMedium
-                    wrapMode: Text.Wrap
+                    minimumPixelSize: Theme.fontSizeTiny
+                    wrapMode: Text.NoWrap
                     fontSizeMode: Text.Fit
                     //: Cover page label
                     //% "Last backup"
@@ -91,7 +92,7 @@ CoverBackground {
                     color: Theme.secondaryColor
                     font.pixelSize: Theme.fontSizeSmall
                     minimumPixelSize: Theme.fontSizeExtraSmall
-                    wrapMode: Text.Wrap
+                    wrapMode: Text.WordWrap
                     fontSizeMode: Text.Fit
                     text: cover.dateTimeString(lastBackup, "\n")
                 }
@@ -102,12 +103,13 @@ CoverBackground {
                 width: parent.width
 
                 Label {
-                    width: parent.width
-                    horizontalAlignment: Text.AlignHCenter
+                    width: Math.min(parent.width, implicitWidth)
+                    anchors.horizontalCenter: parent.horizontalCenter
                     color: Theme.highlightColor
+                    truncationMode: TruncationMode.Fade
                     font.pixelSize: Theme.fontSizeLarge
-                    minimumPixelSize: Theme.fontSizeMedium
-                    wrapMode: Text.Wrap
+                    minimumPixelSize: Theme.fontSizeTiny
+                    wrapMode: Text.NoWrap
                     fontSizeMode: Text.Fit
                     //: Cover page label
                     //% "Last restore"
@@ -120,7 +122,7 @@ CoverBackground {
                     color: Theme.secondaryColor
                     font.pixelSize: Theme.fontSizeSmall
                     minimumPixelSize: Theme.fontSizeExtraSmall
-                    wrapMode: Text.Wrap
+                    wrapMode: Text.WordWrap
                     fontSizeMode: Text.Fit
                     text: cover.dateTimeString(lastRestore, "\n")
                 }

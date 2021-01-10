@@ -111,17 +111,17 @@
     <message id="mybackup-cover-last_backup">
         <source>Last backup</source>
         <extracomment>Cover page label</extracomment>
-        <translation>Последнее копирование</translation>
+        <translation>Скопировано</translation>
     </message>
     <message id="mybackup-cover-last_restore">
         <source>Last restore</source>
         <extracomment>Cover page label</extracomment>
-        <translation>Последнее восстановоение</translation>
+        <translation>Восстановлено</translation>
     </message>
     <message id="mybackup-cover-nothing_backed_up">
         <source>Nothing has been backed up or restored yet</source>
         <extracomment>Cover page label</extracomment>
-        <translation>Пока ещё ничего не было сохранено или восстановлено</translation>
+        <translation>Пока ещё ничего не было скопировано или восстановлено</translation>
     </message>
 </context>
 </TS>
