@@ -1,6 +1,6 @@
 Name:           openrepos-mybackup
 Summary:        Backup manager
-Version:        1.0.0
+Version:        1.0.1
 Release:        1
 License:        BSD
 URL:            https://github.com/monich/harbour-mybackup
