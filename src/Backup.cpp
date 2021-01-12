@@ -132,15 +132,14 @@ void Backup::Private::copyFile(const char* aDestFile, const char* aSrcFile)
     GFile* dest = g_file_new_for_path(aDestFile);
     GFileCopyFlags flags = (GFileCopyFlags)(G_FILE_COPY_OVERWRITE |
         G_FILE_COPY_ALL_METADATA);
+    char* srcPath = g_file_get_path(src);
+    char* destPath = g_file_get_path(dest);
 
-    if (g_file_copy(src, dest, flags, NULL, NULL, NULL, &error)) {
-#if HARBOUR_DEBUG
-        char* srcPath = g_file_get_path(src);
-        char* destPath = g_file_get_path(dest);
+    // First try to create a hard link because it's so much faster
+    if (link(srcPath, destPath) == 0) {
+        HDEBUG(srcPath << "->" << destPath);
+    } else if (g_file_copy(src, dest, flags, NULL, NULL, NULL, &error)) {
         HDEBUG(srcPath << "=>" << destPath);
-        g_free(srcPath);
-        g_free(destPath);
-#endif // HARBOUR_DEBUG
     } else {
         if (g_error_matches(error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND)) {
             // Caller checks if the source exists but doesn't necessarily
@@ -165,16 +164,10 @@ void Backup::Private::copyFile(const char* aDestFile, const char* aSrcFile)
                     }
                     g_error_free(error);
                     error = NULL;
-                    // And make another attempt to tocopy the file
+                    // And make another attempt to copy the file
                     HDEBUG("Created" << destDirPath);
                     if (g_file_copy(src, dest, flags, NULL, NULL, NULL, &error)) {
-#if HARBOUR_DEBUG
-                        char* srcPath = g_file_get_path(src);
-                        char* destPath = g_file_get_path(dest);
                         HDEBUG(srcPath << "=>" << destPath);
-                        g_free(srcPath);
-                        g_free(destPath);
-#endif // HARBOUR_DEBUG
                     }
                 } else {
                     HWARN("Failed to create directory" << destDirPath <<
@@ -192,6 +185,8 @@ void Backup::Private::copyFile(const char* aDestFile, const char* aSrcFile)
         }
     }
 
+    g_free(srcPath);
+    g_free(destPath);
     g_object_unref(src);
     g_object_unref(dest);
 }
