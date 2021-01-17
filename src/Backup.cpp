@@ -101,10 +101,14 @@ public:
     static QDir backupFilesDir(const QString aBackupRoot);
     static QString backupUserRoot(const QString aBackupRoot);
     static QString backupConfigStore(const QString aBackupRoot);
+    static bool isExcluded(const char* aPath, const char* aExDir);
     static void copyFile(const char* aDestFile, const char* aSrcFile);
-    static void copyDir(const char* aDestDir, const char* aSrcDir);
-    static void copyFiles(QDir destDir, QDir srcDir, const QString aEntry);
-    static void copyFiles(QDir destDir, QDir srcDir, const QStringList aList);
+    static void copyDir(const char* aDestDir, const char* aSrcDir,
+        const char* aDestExDir, const char* aSrcExDir);
+    static void copyFiles(QDir aDestDir, QDir aSrcDir, const QString aEntry,
+        const char* aDestExDir, const char* aSrcExDir);
+    static void copyFiles(QDir aDestDir, QDir aSrcDir, const QStringList aList,
+        const char* aDestExDir, const char* aSrcExDir);
 };
 
 QString Backup::Private::backupUserRoot(const QString aBackupRoot)
@@ -191,11 +195,32 @@ void Backup::Private::copyFile(const char* aDestFile, const char* aSrcFile)
     g_object_unref(dest);
 }
 
-void Backup::Private::copyDir(const char* aDestDir, const char* aSrcDir)
+bool Backup::Private::isExcluded(const char* aPath, const char* aExDir)
+{
+    if (aExDir) {
+        const size_t xlen = strlen(aExDir);
+        if (!strncmp(aPath, aExDir, xlen)) {
+            if (!aPath[xlen]) {
+                HWARN(aPath << "is excluded, skipping");
+                return true;
+            } else if (aPath[xlen] == '/') {
+                HWARN(aPath << "is under" << aExDir << ", skipping");
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+void Backup::Private::copyDir(const char* aDestDir, const char* aSrcDir,
+    const char* aDestExDir, const char* aSrcExDir)
 {
     // Make sure that the source is a directory
     struct stat st;
-    if (!stat(aSrcDir, &st) && S_ISDIR(st.st_mode)) {
+    if (stat(aSrcDir, &st) && S_ISDIR(st.st_mode)) {
+        HWARN("Skipping" << aSrcDir);
+    } else if (!isExcluded(aSrcDir, aSrcExDir) &&
+               !isExcluded(aDestDir, aDestExDir)) {
         // Create the destination directory if necessary
         bool destDirExists = g_file_test(aDestDir, G_FILE_TEST_IS_DIR);
         if (!destDirExists) {
@@ -232,7 +257,7 @@ void Backup::Private::copyDir(const char* aDestDir, const char* aSrcDir)
                             if (S_ISREG(st.st_mode)) {
                                 copyFile(dest, src);
                             } else {
-                                copyDir(dest, src);
+                                copyDir(dest, src, aDestExDir, aSrcExDir);
                             }
                         }
                         g_free(dest);
@@ -242,13 +267,11 @@ void Backup::Private::copyDir(const char* aDestDir, const char* aSrcDir)
                 g_dir_close(dir);
             }
         }
-    } else {
-        HWARN("Skipping" << aSrcDir);
     }
 }
 
 void Backup::Private::copyFiles(QDir aDestDir, QDir aSrcDir,
-    const QString aEntry)
+    const QString aEntry, const char* aDestExDir, const char* aSrcExDir)
 {
     // BackupList::backupFileList makes sure that paths are relative
     // to the home directory. Caller makes sure that the destination
@@ -268,13 +291,19 @@ void Backup::Private::copyFiles(QDir aDestDir, QDir aSrcDir,
         if (copyTree) {
             if (srcInfo.isDir()) {
                 // Copy directory tree
-                copyDir(destPath.constData(), srcPath.constData());
+                copyDir(destPath.constData(), srcPath.constData(),
+                    aDestExDir, aSrcExDir);
             } else {
                 HWARN(srcPath.constData() << "is not a directory");
             }
         } else {
             if (srcInfo.isFile()) {
-                copyFile(destPath.constData(), srcPath.constData());
+                const char* dest = destPath.constData();
+                const char* src = srcPath.constData();
+                if (!isExcluded(src, aSrcExDir) &&
+                    !isExcluded(dest, aDestExDir)) {
+                    copyFile(dest, src);
+                }
             } else {
                 HWARN(srcPath.constData() << "is not a file");
             }
@@ -285,11 +314,12 @@ void Backup::Private::copyFiles(QDir aDestDir, QDir aSrcDir,
     }
 }
 
-void Backup::Private::copyFiles(QDir aDestDir, QDir aSrcDir, const QStringList aList)
+void Backup::Private::copyFiles(QDir aDestDir, QDir aSrcDir,
+    const QStringList aList, const char* aDestExDir, const char* aSrcExDir)
 {
     const int n = aList.count();
     for (int i = 0; i < n; i++) {
-        copyFiles(aDestDir, aSrcDir, aList.at(i));
+        copyFiles(aDestDir, aSrcDir, aList.at(i), aDestExDir, aSrcExDir);
     }
 }
 
@@ -405,7 +435,10 @@ void Backup::Import::restore(const QString aHome, const QString aBackupRoot,
     const QStringList aFileList, const QStringList aConfigList)
 {
     HDEBUG("Restoring files" << aBackupRoot << "=>" << aHome);
-    Private::copyFiles(QDir(aHome), Private::backupFilesDir(aBackupRoot), aFileList);
+    QDir backupDir(Private::backupFilesDir(aBackupRoot));
+    const QByteArray exPath(backupDir.absolutePath().toLocal8Bit());
+    Private::copyFiles(QDir(aHome), backupDir, aFileList,
+        exPath.constData(), Q_NULLPTR);
     restoreConfig(aBackupRoot, aConfigList);
 }
 
@@ -516,7 +549,10 @@ void Backup::Export::backup(const QString aHome, const QString aBackupRoot,
     const QStringList aFileList, const QStringList aConfigList)
 {
     HDEBUG("Backing up files" << aHome << "=>" << aBackupRoot);
-    Private::copyFiles(Private::backupFilesDir(aBackupRoot), QDir(aHome), aFileList);
+    QDir backupDir(Private::backupFilesDir(aBackupRoot));
+    const QByteArray exPath(backupDir.absolutePath().toLocal8Bit());
+    Private::copyFiles(backupDir, QDir(aHome), aFileList,
+        Q_NULLPTR, exPath.constData());
     backupConfig(aBackupRoot, aConfigList);
 }
 
