@@ -66,7 +66,7 @@
     <message id="mybackup-add_page-title">
         <source>Add backup item</source>
         <extracomment>Add backup item page title</extracomment>
-        <translation>Add backup item</translation>
+        <translation>添加备份项目</translation>
     </message>
     <message id="mybackup-add_page-item_app">
         <source>Application</source>
