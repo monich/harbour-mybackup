@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020 Jolla Ltd.
- * Copyright (C) 2020 Slava Monich <slava@monich.com>
+ * Copyright (C) 2020-2021 Jolla Ltd.
+ * Copyright (C) 2020-2021 Slava Monich <slava@monich.com>
  *
  * You may use this file under the terms of the BSD license as follows:
  *
@@ -39,6 +39,7 @@
 #define CONFIG_GROUP_MODEL_H
 
 #include <QAbstractListModel>
+#include <QStringList>
 
 class ConfigGroupModel : public QAbstractListModel {
     Q_OBJECT
