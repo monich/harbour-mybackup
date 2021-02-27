@@ -83,6 +83,7 @@ Rectangle {
 
             width: imageSize
             height: imageSize
+            anchors.verticalCenter: parent.verticalCenter
 
             Loader {
                 id: appImage
