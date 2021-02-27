@@ -4,11 +4,10 @@ import Sailfish.Silica 1.0
 import "harbour"
 
 BackgroundItem {
-    id: listItem
-
     property alias icon: icon
     property alias text: label.text
     property alias font: label.font
+    property int iconSize: Theme.iconSizeMedium
 
     Row {
         x: Theme.horizontalPageMargin
@@ -20,7 +19,7 @@ BackgroundItem {
             id: icon
 
             anchors.verticalCenter: parent.verticalCenter
-            sourceSize.height: listItem.height
+            sourceSize.height: iconSize
             smooth: true
             highlightColor: label.color
         }

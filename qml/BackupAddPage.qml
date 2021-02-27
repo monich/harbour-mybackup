@@ -46,6 +46,7 @@ Page {
         }
 
         delegate: IconTextListItem {
+            iconSize: height
             text: model.title
             icon.source: Qt.resolvedUrl("images/" + model.icon)
             onClicked: {
