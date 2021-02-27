@@ -1,6 +1,6 @@
 NAME = mybackup
 
-#CONFIG += openrepos
+CONFIG += openrepos
 
 openrepos {
     PREFIX = openrepos
@@ -115,19 +115,18 @@ ICON_SIZES = 86 108 128 256
 for(s, ICON_SIZES) {
     icon_target = icon_$${s}
     icon_dir = icons/$${s}x$${s}
-    $${icon_target}.files = $${icon_dir}/$${TARGET}.png
-    $${icon_target}.path = /usr/share/icons/hicolor/$${s}x$${s}/apps
-    openrepos {
-        $${icon_target}.extra = cp $${icon_dir}/harbour-$${NAME}.png $$eval($${icon_target}.files)
-        $${icon_target}.CONFIG += no_check_exist
-    }
+    src = $${_PRO_FILE_PWD_}/$${icon_dir}/harbour-$${NAME}.png
+    dest = /usr/share/icons/hicolor/$${s}x$${s}/apps
+    $${icon_target}.path = $${dest}
+    $${icon_target}.commands = $(INSTALL_FILE) \"$${src}\" $(INSTALL_ROOT)$${dest}/$${TARGET}.png
     INSTALLS += $${icon_target}
 }
 
 # Desktop file
 
 openrepos {
-    desktop.extra = sed s/harbour/openrepos/g harbour-$${NAME}.desktop > $${TARGET}.desktop
+    desktop.files = $${OUT_PWD}/$${TARGET}.desktop
+    desktop.extra = sed s/harbour/openrepos/g $${_PRO_FILE_PWD_}/harbour-$${NAME}.desktop > $${desktop.files}
     desktop.CONFIG += no_check_exist
 }
 
@@ -155,27 +154,26 @@ defineTest(addTrFile) {
 
     s = $$replace(1,-,_)
     lupdate_target = lupdate_$$s
-    lrelease_target = lrelease_$$s
+    qm_target = qm_$$s
 
     $${lupdate_target}.commands = lupdate -noobsolete -locations none $${TRANSLATION_SOURCES} -ts \"$${in}.ts\" && \
         mkdir -p \"$${OUT_PWD}/translations\" &&  [ \"$${in}.ts\" != \"$${out}.ts\" ] && \
         cp -af \"$${in}.ts\" \"$${out}.ts\" || :
 
-    $${lrelease_target}.target = $${out}.qm
-    $${lrelease_target}.depends = $${lupdate_target}
-    $${lrelease_target}.commands = lrelease -idbased \"$${out}.ts\"
+    $${qm_target}.path = $$TRANSLATIONS_PATH
+    $${qm_target}.depends = $${lupdate_target}
+    $${qm_target}.commands = lrelease -idbased \"$${out}.ts\" && \
+        $(INSTALL_FILE) \"$${out}.qm\" $(INSTALL_ROOT)$${TRANSLATIONS_PATH}/
 
-    QMAKE_EXTRA_TARGETS += $${lrelease_target} $${lupdate_target}
-    PRE_TARGETDEPS += $${out}.qm
-    qm.files += $${out}.qm
+    QMAKE_EXTRA_TARGETS += $${lupdate_target} $${qm_target}
+    INSTALLS += $${qm_target}
 
     export($${lupdate_target}.commands)
-    export($${lrelease_target}.target)
-    export($${lrelease_target}.depends)
-    export($${lrelease_target}.commands)
+    export($${qm_target}.path)
+    export($${qm_target}.depends)
+    export($${qm_target}.commands)
     export(QMAKE_EXTRA_TARGETS)
-    export(PRE_TARGETDEPS)
-    export(qm.files)
+    export(INSTALLS)
 }
 
 LANGUAGES = pl ru sv zh_CN
@@ -185,6 +183,3 @@ for(l, LANGUAGES) {
     addTrFile($${NAME}-$$l)
 }
 
-qm.path = $$TRANSLATIONS_PATH
-qm.CONFIG += no_check_exist
-INSTALLS += qm
