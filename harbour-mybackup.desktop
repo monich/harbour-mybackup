@@ -6,3 +6,6 @@ Name[zh_CN]=我的备份
 X-Nemo-Application-Type=silica-qt5
 Icon=harbour-mybackup
 Exec=harbour-mybackup
+
+[X-Sailjail]
+Sandboxing=Disabled
