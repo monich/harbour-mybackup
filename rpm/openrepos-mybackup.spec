@@ -42,8 +42,10 @@ desktop-file-install --delete-original \
 
 %postun
 if [ "$1" == 0 ] ; then
-  for u in $(getent passwd | cut -d: -f1); do
-    eval rm -fr ~$u/.local/share/openrepos-mybackup ||:
+  for d in $(getent passwd | cut -d: -f6) ; do
+    if [ "$d" != "" ] && [ "$d" != "/" ] && [ -d "$d/.local/share/openrepos-mybackup" ] ; then
+      rm -fr "$d/.local/share/openrepos-mybackup" ||:
+    fi
   done
 fi
 
