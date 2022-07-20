@@ -1,4 +1,5 @@
 Name:           openrepos-mybackup
+
 Summary:        Backup manager
 Version:        1.0.5
 Release:        1
@@ -24,6 +25,21 @@ BuildRequires:  qt5-qttools-linguist
 
 %description
 Allows to add more stuff to the backup.
+
+%if "%{?vendor}" == "chum"
+Categories:
+ - Utility
+Icon: https://raw.githubusercontent.com/monich/harbour-mybackup/master/icons/harbour-mybackup.svg
+Screenshots:
+- https://home.monich.net/chum/openrepos-mybackup/screenshots/screenshot-001.png
+- https://home.monich.net/chum/openrepos-mybackup/screenshots/screenshot-002.png
+- https://home.monich.net/chum/openrepos-mybackup/screenshots/screenshot-003.png
+- https://home.monich.net/chum/openrepos-mybackup/screenshots/screenshot-004.png
+- https://home.monich.net/chum/openrepos-mybackup/screenshots/screenshot-005.png
+- https://home.monich.net/chum/openrepos-mybackup/screenshots/screenshot-006.png
+Url:
+  Homepage: https://openrepos.net/content/slava/my-backup
+%endif
 
 %prep
 %setup -q -n %{name}-%{version}
