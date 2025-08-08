@@ -1,7 +1,7 @@
 Name:           openrepos-mybackup
 
 Summary:        Backup manager
-Version:        1.0.6
+Version:        1.0.7
 Release:        1
 License:        BSD
 URL:            https://github.com/monich/harbour-mybackup
@@ -21,7 +21,6 @@ BuildRequires:  qt5-qttools-linguist
 
 %{!?qtc_qmake5:%define qtc_qmake5 %qmake5}
 %{!?qtc_make:%define qtc_make make}
-%{?qtc_builddir:%define _builddir %qtc_builddir}
 
 %description
 Allows to add more stuff to the backup.
