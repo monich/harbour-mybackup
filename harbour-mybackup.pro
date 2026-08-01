@@ -111,7 +111,7 @@ INSTALLS += qml_components
 
 # Icons
 
-ICON_SIZES = 86 108 128 256
+ICON_SIZES = 86 108 128 172 256
 for(s, ICON_SIZES) {
     icon_target = icon_$${s}
     icon_dir = icons/$${s}x$${s}
